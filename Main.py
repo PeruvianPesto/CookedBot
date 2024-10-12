@@ -2,7 +2,7 @@ from typing import Final
 import os
 from dotenv import load_dotenv
 from discord import Intents, Client, Message
-from Responses import process_cooked, get_response
+from Responses import process_cooked, get_response, get_cooked_count, format_cooked_count_message
 
 load_dotenv()
 TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
@@ -24,7 +24,18 @@ async def on_message(message: Message):
     user_message: str = message.content.lower()
     channel: str = str(message.channel)
 
-    if "cooked" in user_message:
+    if user_message.startswith('!cooked'):
+        if message.mentions:
+            # Check cooked count for mentioned user
+            mentioned_user = str(message.mentions[0])
+            count = get_cooked_count(mentioned_user)
+            response = format_cooked_count_message(mentioned_user, count)
+        else:
+            # Check cooked count for message author
+            count = get_cooked_count(username)
+            response = format_cooked_count_message(username, count)
+        await message.channel.send(response)
+    elif "cooked" in user_message:
         should_respond, count = process_cooked(username)
         if should_respond:
             response: str = get_response(count)

@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
+from typing import Optional
 
 cooked_count = {}
 last_response_date = {}
-
 
 def process_cooked(username: str) -> tuple[bool, int]:
     today = datetime.now().date()
@@ -19,13 +19,23 @@ def process_cooked(username: str) -> tuple[bool, int]:
 
     return should_respond, cooked_count[username]
 
-
 def get_response(count: int) -> str:
     if count == 1:
-        return "Stfu Chud"
+        return f"stop with the doom posting"
     elif count < 5:
-        return f"Cooked again! That's {count} times now."
+        return f"That's the {count} doom post"
     elif count < 10:
-        return f"Wow, {count} times cooked! You're on a roll!"
+        return f"Wow, {count} times cooked"
     else:
-        return f"Incredible! You've been cooked {count} times! Are you okay?"
+        return f"Are you mentally ill?"
+
+def get_cooked_count(username: str) -> int:
+    return cooked_count.get(username, 0)
+
+def format_cooked_count_message(username: str, count: int) -> str:
+    if count == 0:
+        return f"{username} Cooked Count: 0"
+    elif count == 1:
+        return f"{username} Cooked Count: 1"
+    else:
+        return f"{username} Cooked Count: {count}"
