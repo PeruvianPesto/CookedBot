@@ -2,7 +2,7 @@ from typing import Final
 import os
 from dotenv import load_dotenv
 from discord import Intents, Client, Message
-from Responses import process_cooked, get_response, get_cooked_count, format_cooked_count_message
+from Responses import process_cooked, get_response, get_cooked_count, format_cooked_count_message, load_data
 
 load_dotenv()
 TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
@@ -14,6 +14,7 @@ client = Client(intents=intents)
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
+    load_data()  # Load saved data when the bot starts
 
 @client.event
 async def on_message(message: Message):
