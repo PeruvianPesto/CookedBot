@@ -52,7 +52,7 @@ async def on_message(message: Message):
             count = get_cooked_count(username)
             response = format_cooked_count_message(username, count)
         await message.channel.send(response)
-    elif "cooked" in user_message:
+    elif "cooked" in user_message or "wraps" in user_message:
         should_respond, count, total_count = process_cooked(username)
         if should_respond:
             response: str = get_response(count)
