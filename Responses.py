@@ -48,15 +48,15 @@ def process_cooked(username: str) -> tuple[bool, int, int]:
 def get_response(count: int) -> str:
     if count == 1:
         return f"stop with the doom posting"
-    elif count < 5:
-        return f"That's the {count} doom post"
     elif count < 10:
-        return f"Wow, {count} times cooked"
-    elif count < 15:
-        return f"Your parents don't love you"
-    elif count < 20:
-        return f"1984"
+        return f"kys"
     elif count < 25:
+        return f"Wow, {count} times cooked"
+    elif count < 35:
+        return f"Your parents don't love you"
+    elif count < 50:
+        return f"1984"
+    elif count < 75:
         return f"Bro thinks he's Jeremy Wu"
     else:
         return f"Are you mentally ill?"
@@ -89,6 +89,13 @@ def format_leaderboard(leaderboard: List[Tuple[str, int]]) -> str:
         return "No one has been cooked yet!"
 
     formatted = "🏆 Cooked Leaderboard 🏆\n\n"
+    current_rank = 1
+    previous_count = None
+
     for i, (username, count) in enumerate(leaderboard, 1):
-        formatted += f"{i}. {username}: {count} times\n"
+        if count != previous_count:
+            current_rank = i
+        formatted += f"{current_rank}. {username}: {count} times\n"
+        previous_count = count
+
     return formatted
